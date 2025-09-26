@@ -9,3 +9,8 @@ Profile Management: Alumni can update personal information, work history, and co
 Search and Connect: Users can search for and connect with other alumni by name, graduation year, or profession.
 Event Management: The administrator can post and manage details about upcoming alumni events.
 News and Announcements: A dedicated section to share news, success stories, and important announcements with the alumni community.
+
+# Technologies Used
+Frontend:  HTML, CSS
+Backend:  Python (Django)
+Database: MySQL
