@@ -19,3 +19,5 @@ class AnnouncementForm(forms.ModelForm):
     class Meta:
         model = Announcement
         fields = ['title', 'content']
+         widgets = {
+                        'content': forms.Textarea(attrs={'rows': 3}),
