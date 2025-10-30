@@ -16,3 +16,10 @@ class EventForm(forms.ModelForm):
                     'description': forms.Textarea(attrs={'rows': 3}),
                     'date': forms.DateInput(attrs={'type': 'date'}),
         }
+class AnnouncementForm(forms.ModelForm):
+        class Meta:
+              model = Announcement
+              fields = ['title', 'content']
+              widgets = {
+                        'content': forms.Textarea(attrs={'rows': 3}),
+        }
