@@ -1,0 +1,190 @@
+{% extends 'base.html' %}
+{% block title %}AI Career Advisor{% endblock %}
+
+{% block extra_css %}
+<style>
+  .ai-wrap { background:#0d0d14; min-height:80vh; padding:2.5rem 0 4rem; }
+  .ai-badge { display:inline-flex;align-items:center;gap:8px;background:rgba(139,92,246,.15);border:1px solid rgba(139,92,246,.4);color:#a78bfa;padding:5px 14px;border-radius:20px;font-size:12px;font-weight:600;margin-bottom:1rem; }
+  .ai-badge span{width:7px;height:7px;background:#a78bfa;border-radius:50%;animation:pdot 1.5s ease-in-out infinite;}
+  @keyframes pdot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.4)}}
+  .ai-title{font-size:2.2rem;font-weight:700;color:#fff;margin-bottom:.5rem;}
+  .ai-title .acc{background:linear-gradient(135deg,#a78bfa,#60a5fa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+  .ai-subtitle{color:#6b7280;font-size:1rem;margin-bottom:2rem;}
+  .ai-card{background:#111118;border:1px solid #1f1f2e;border-radius:18px;overflow:hidden;}
+  .input-panel{padding:1.8rem;border-bottom:1px solid #1f1f2e;}
+  .input-panel label{display:block;color:#9ca3af;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px;}
+  .ai-textarea{width:100%;background:#0d0d14;border:1px solid #2a2a3d;border-radius:12px;color:#e5e7eb;font-size:.95rem;padding:14px 16px;resize:vertical;min-height:110px;outline:none;transition:border-color .2s;font-family:inherit;}
+  .ai-textarea:focus{border-color:#7c3aed;box-shadow:0 0 0 3px rgba(124,58,237,.12);}
+  .ai-textarea::placeholder{color:#4b5563;}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:.9rem;}
+  .chip{background:#1a1a2e;border:1px solid #2a2a3d;color:#9ca3af;padding:5px 13px;border-radius:20px;font-size:12px;cursor:pointer;transition:all .2s;font-family:inherit;}
+  .chip:hover{background:rgba(124,58,237,.15);border-color:#7c3aed;color:#a78bfa;}
+  .send-btn{display:inline-flex;align-items:center;gap:8px;margin-top:1rem;background:linear-gradient(135deg,#7c3aed,#2563eb);color:#fff;border:none;border-radius:10px;padding:11px 24px;font-size:.9rem;font-weight:600;cursor:pointer;transition:opacity .2s,transform .15s;font-family:inherit;}
+  .send-btn:hover{opacity:.9;transform:translateY(-1px);}
+  .send-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+  .response-panel{padding:1.8rem;min-height:180px;}
+  .empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:180px;color:#374151;text-align:center;}
+  .empty-state i{font-size:2.2rem;margin-bottom:.8rem;opacity:.35;}
+  .thinking{display:none;align-items:center;gap:12px;padding:.8rem 0;}
+  .thinking.on{display:flex;}
+  .dots span{width:7px;height:7px;background:#7c3aed;border-radius:50%;display:inline-block;animation:bounce 1.2s ease-in-out infinite;margin-right:3px;}
+  .dots span:nth-child(2){animation-delay:.2s;}
+  .dots span:nth-child(3){animation-delay:.4s;}
+  @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+  .resp-box{background:#0d0d14;border:1px solid #1f2937;border-radius:12px;padding:1.4rem;}
+  .resp-label{display:flex;align-items:center;gap:8px;color:#a78bfa;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:.9rem;padding-bottom:.8rem;border-bottom:1px solid #1f2937;}
+  .resp-text{color:#d1d5db;font-size:.93rem;line-height:1.85;white-space:pre-wrap;}
+  .resp-content{display:none;}
+  .resp-content.on{display:block;}
+  .err-box{background:#1f0000;border:1px solid #7f1d1d;border-radius:12px;padding:1rem 1.4rem;color:#fca5a5;font-size:.9rem;}
+  .sidebar-card{background:#111118;border:1px solid #1f1f2e;border-radius:14px;padding:1.4rem;margin-bottom:1rem;}
+  .sidebar-card h6{color:#6b7280;font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;margin-bottom:.9rem;}
+  .fpill{display:inline-flex;align-items:center;gap:5px;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.3);color:#4ade80;padding:3px 10px;border-radius:10px;font-size:11px;font-weight:600;margin:2px;}
+  .tip-item{display:flex;gap:10px;margin-bottom:.7rem;font-size:.83rem;color:#9ca3af;line-height:1.5;}
+  .tip-icon{color:#7c3aed;flex-shrink:0;margin-top:2px;}
+  .qlink{display:flex;align-items:center;gap:10px;color:#9ca3af;font-size:.85rem;text-decoration:none;padding:7px 0;border-bottom:1px solid #1a1a2e;}
+  .qlink:last-child{border-bottom:none;}
+  .qlink:hover{color:#a78bfa;}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="ai-wrap">
+  <div class="container">
+    <div class="text-center mb-4">
+      <div class="ai-badge"><span></span> Powered by Claude AI</div>
+      <h1 class="ai-title">Your <span class="acc">AI Career</span> Advisor</h1>
+      <p class="ai-subtitle">Personalized career guidance, resume tips, interview prep & more — tailored just for you.</p>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-lg-8">
+        <div class="ai-card">
+          <div class="input-panel">
+            <label>Ask anything about your career</label>
+            <textarea class="ai-textarea" id="userQuery" placeholder="e.g. How do I switch from engineering to product management? What skills should I build?"></textarea>
+            <div class="chips">
+              <span class="chip" onclick="setQ('How do I improve my resume for a senior software role?')">📄 Resume tips</span>
+              <span class="chip" onclick="setQ('What are the best networking strategies for alumni?')">🤝 Networking</span>
+              <span class="chip" onclick="setQ('How do I prepare for a technical interview at a top company?')">💻 Interview prep</span>
+              <span class="chip" onclick="setQ('How can I successfully switch careers to data science?')">🔄 Career switch</span>
+              <span class="chip" onclick="setQ('What are high-paying career paths for my degree?')">💰 Salary insights</span>
+              <span class="chip" onclick="setQ('How do I build a strong LinkedIn profile that gets noticed?')">🔗 LinkedIn tips</span>
+            </div>
+            <button class="send-btn" id="sendBtn" onclick="askAI()">
+              <i class="fas fa-paper-plane"></i> Get AI Advice
+              <span style="font-size:11px;opacity:.7">(Ctrl+Enter)</span>
+            </button>
+          </div>
+
+          <div class="response-panel">
+            <div class="thinking" id="thinking">
+              <div class="dots"><span></span><span></span><span></span></div>
+              <span style="color:#9ca3af;font-size:.88rem;margin-left:6px">Claude is thinking...</span>
+            </div>
+            <div class="empty-state" id="emptyState">
+              <i class="fas fa-robot"></i>
+              <p style="color:#4b5563;font-size:.9rem;margin-top:.5rem">Ask a career question above to get instant AI advice</p>
+            </div>
+            <div class="resp-content" id="respContent">
+              <div class="resp-box">
+                <div class="resp-label"><i class="fas fa-robot"></i> AI Career Advisor</div>
+                <div class="resp-text" id="respText"></div>
+              </div>
+            </div>
+            <div id="errContent" style="display:none" class="mt-3">
+              <div class="err-box" id="errText"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4">
+        <div class="sidebar-card">
+          <h6>✨ What I can help with</h6>
+          <span class="fpill"><i class="fas fa-check"></i>Resume review</span>
+          <span class="fpill"><i class="fas fa-check"></i>Career paths</span>
+          <span class="fpill"><i class="fas fa-check"></i>Interview tips</span>
+          <span class="fpill"><i class="fas fa-check"></i>Salary advice</span>
+          <span class="fpill"><i class="fas fa-check"></i>Networking</span>
+          <span class="fpill"><i class="fas fa-check"></i>Skill gaps</span>
+          <span class="fpill"><i class="fas fa-check"></i>Job search</span>
+          <span class="fpill"><i class="fas fa-check"></i>LinkedIn tips</span>
+        </div>
+        <div class="sidebar-card">
+          <h6>💡 Pro Tips</h6>
+          <div class="tip-item"><i class="fas fa-lightbulb tip-icon"></i><span>Be specific — mention your degree, years of experience, and target role.</span></div>
+          <div class="tip-item"><i class="fas fa-lightbulb tip-icon"></i><span>Ask follow-up questions to go deeper on any topic.</span></div>
+          <div class="tip-item"><i class="fas fa-lightbulb tip-icon"></i><span>The AI knows your profile — it gives personalised advice.</span></div>
+        </div>
+        <div class="sidebar-card">
+          <h6>🔗 Quick Links</h6>
+          <a href="{% url 'alumni_list' %}" class="qlink"><i class="fas fa-users" style="color:#7c3aed"></i>Browse Alumni Network</a>
+          <a href="{% url 'job_list' %}" class="qlink"><i class="fas fa-briefcase" style="color:#2563eb"></i>View Job Opportunities</a>
+          <a href="{% url 'my_applications' %}" class="qlink"><i class="fas fa-list-check" style="color:#10b981"></i>My Applications</a>
+          <a href="{% url 'event_list' %}" class="qlink"><i class="fas fa-calendar-alt" style="color:#f59e0b"></i>Upcoming Events</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function setQ(t){ document.getElementById('userQuery').value=t; document.getElementById('userQuery').focus(); }
+
+function getCookie(name) {
+  let v = null;
+  document.cookie.split(';').forEach(c => {
+    c = c.trim();
+    if (c.startsWith(name + '=')) v = decodeURIComponent(c.slice(name.length + 1));
+  });
+  return v;
+}
+
+async function askAI(){
+  const q = document.getElementById('userQuery').value.trim();
+  if(!q) return;
+
+  const btn = document.getElementById('sendBtn');
+  btn.disabled = true;
+  document.getElementById('emptyState').style.display = 'none';
+  document.getElementById('respContent').classList.remove('on');
+  document.getElementById('errContent').style.display = 'none';
+  document.getElementById('thinking').classList.add('on');
+
+  try {
+    const res = await fetch("{% url 'ai_advisor_api' %}", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': getCookie('csrftoken'),
+      },
+      body: JSON.stringify({ message: q })
+    });
+
+    const data = await res.json();
+    document.getElementById('thinking').classList.remove('on');
+
+    if (data.reply) {
+      document.getElementById('respText').textContent = data.reply;
+      document.getElementById('respContent').classList.add('on');
+      document.getElementById('userQuery').value = '';
+    } else {
+      document.getElementById('errText').textContent = data.error || 'Something went wrong. Please try again.';
+      document.getElementById('errContent').style.display = 'block';
+    }
+  } catch(e) {
+    document.getElementById('thinking').classList.remove('on');
+    document.getElementById('errText').textContent = 'Network error. Please check your connection and try again.';
+    document.getElementById('errContent').style.display = 'block';
+  }
+  btn.disabled = false;
+}
+
+document.getElementById('userQuery').addEventListener('keydown', e => {
+  if(e.ctrlKey && e.key === 'Enter') askAI();
+});
+</script>
+{% endblock %}

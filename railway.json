@@ -1,0 +1,9 @@
+{
+  "build": {
+    "builder": "NIXPACKS"
+  },
+  "deploy": {
+    "startCommand": "python manage.py migrate && gunicorn alumni_system.wsgi",
+    "restartPolicyType": "ON_FAILURE"
+  }
+}

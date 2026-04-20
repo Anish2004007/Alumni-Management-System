@@ -1,0 +1,43 @@
+[33mbb1b026[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m Add clean views.py without API key
+[33m0e8301b[m Add job applications, AI advisor, fix templates, secure API keys
+[33mb054f6c[m ai advisor error solving
+[33m4d3af60[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m Add missing templates, event/job pages, fix login bug, add AI Career Advisor
+[33mebed6f1[m job and event feature adding
+[33m46afaaa[m Add missing templates, event/job pages, fix login bug, add AI Career Advisor
+[33m216a9eb[m uploded remaining files
+[33m246b883[m Merge branch 'main' of https://github.com/Anish2004007/Alumni-Management-System
+[33m05344d2[m updated Alumni/urls.py
+[33m6235146[m Merge branch 'main' of https://github.com/Anish2004007/Alumni-Management-System
+[33m102bf8a[m Refactor models.py to enhance JobApplication, EventRegistration, and AlumniProfile models with new fields and methods for better functionality and data integrity.
+[33m3d6835e[m modified the web page and added new features
+[33m0d399af[m Added proper docstring to JobApplicationForm
+[33m3ab9402[m Updated forms.py with new ModelForms (JobApplicationForm, EventRegistrationForm, AlumniProfileForm) and improved widgets for existing forms
+[33m56dea9f[m Updated forms.py with new ModelForms  and improved widgets for existing forms.
+[33mec2976b[m Resolved merge conflicts and updated forms.py
+[33m625c398[m Updated forms.py with new ModelForms and improved widgets.
+[33mf02202c[m updated Accounts/views.py
+[33m593f16a[m create sample database
+[33mefa7a6d[m updated user login
+[33mbf1c11d[m Merge branch 'main' of https://github.com/Anish2004007/Alumni-Management-System
+[33mcbc7921[m updated files
+[33m7161911[m Project Updated
+[33m2ed344a[m updated project
+[33m7e680bd[m Merge branch 'main' of https://github.com/Anish2004007/Alumni-Management-System
+[33me529edb[m updated
+[33me7e1451[m models.py: Update alumni model with new fields
+[33m5318219[m modified models.py
+[33mc6a2e02[m modified:   alumni/forms.py
+[33m861dc7e[m Merge branch 'main' of https://github.com/Anish2004007/Alumni-Management-System
+[33m93818b1[m In forms.py adding announcement form
+[33m7622d6d[m Add STATICFILES_DIRS to settings for static file management
+[33mcd9d205[m added views.py and forms.py in alumni
+[33m9f57dd5[m added forms.py with forms for alumni,events models
+[33m8b590e7[m Register models in admin.py
+[33m907b61d[m Register models in admin.py for Alumni, Event, and Announcement.
+[33ma9e9a13[m testing changes
+[33m0eab72a[m changes into models.py and collaboration on same codebase
+[33m3ddcbe8[m Initial commit for Alumni Management System
+[33mb6c92d6[m I have created models class alumni , event , announcement.
+[33m4b50d40[m Update README.md
+[33m342a4d4[m Update README.md
+[33m2b6b7b0[m Initial commit

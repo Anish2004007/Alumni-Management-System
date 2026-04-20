@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block title %}Alumni Directory - Alumni Management System{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <h2><i class="fas fa-users me-2"></i>Alumni Directory</h2>
+            <p class="text-muted">Connect with fellow graduates and expand your network</p>
+        </div>
+        <div class="col-md-4 text-end">
+            <a href="{% url 'alumni_create' %}" class="btn btn-primary">
+                <i class="fas fa-user-plus me-2"></i>Add Profile
+            </a>
+        </div>
+    </div>
+
+    <!-- Search Form -->
+    <div class="card mb-4 search-form">
+        <div class="card-body">
+            <form method="get" class="row g-3">
+                <div class="col-md-4">
+                    {{ form.query }}
+                </div>
+                <div class="col-md-3">
+                    {{ form.graduation_year }}
+                </div>
+                <div class="col-md-3">
+                    {{ form.degree }}
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="fas fa-search me-1"></i>Search
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Alumni Grid -->
+    <div class="row">
+        {% for alumni in alumni_list %}
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100">
+                {% if alumni.photo %}
+                <img src="{{ alumni.photo.url }}" class="card-img-top" alt="{{ alumni.user.get_full_name }}" style="height: 200px; object-fit: cover;">
+                {% else %}
+                <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                    <i class="fas fa-user fa-3x text-muted"></i>
+                </div>
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ alumni.user.get_full_name }}</h5>
+                    <p class="card-text">
+                        <strong>{{ alumni.degree }} in {{ alumni.major }}</strong><br>
+                        Class of {{ alumni.graduation_year }}<br>
+                        {% if alumni.current_job %}{{ alumni.current_job }}{% endif %}
+                        {% if alumni.company %} at {{ alumni.company }}{% endif %}
+                    </p>
+                </div>
+                <div class="card-footer">
+                    <a href="{% url 'alumni_detail' alumni.pk %}" class="btn btn-sm btn-outline-primary">View Profile</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="alert alert-info text-center">
+                <i class="fas fa-info-circle me-2"></i>
+                {% if request.GET %}
+                    No alumni found matching your search criteria.
+                {% else %}
+                    No alumni profiles available yet.
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

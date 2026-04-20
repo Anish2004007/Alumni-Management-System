@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ title }} - Alumni Management System{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0"><i class="fas fa-user-edit me-2"></i>{{ title }}</h4>
+                </div>
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data" novalidate>
+                        {% csrf_token %}
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">First Name</label>
+                                {{ form.first_name }}
+                                {% if form.first_name.errors %}
+                                    <div class="text-danger small mt-1">
+                                        {% for error in form.first_name.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Last Name</label>
+                                {{ form.last_name }}
+                                {% if form.last_name.errors %}
+                                    <div class="text-danger small mt-1">
+                                        {% for error in form.last_name.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Email</label>
+                                {{ form.email }}
+                                {% if form.email.errors %}
+                                    <div class="text-danger small mt-1">
+                                        {% for error in form.email.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Student ID</label>
+                                {{ form.student_id }}
+                                {% if form.student_id.errors %}
+                                    <div class="text-danger small mt-1">
+                                        {% for error in form.student_id.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Phone</label>
+                                {{ form.phone }}
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Graduation Year</label>
+                                {{ form.graduation_year }}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Degree</label>
+                                {{ form.degree }}
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Major</label>
+                                {{ form.major }}
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Address</label>
+                            {{ form.address }}
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Current Job</label>
+                                {{ form.current_job }}
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Company</label>
+                                {{ form.company }}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">LinkedIn Profile</label>
+                                {{ form.linkedin }}
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Profile Photo</label>
+                                {{ form.photo }}
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Bio</label>
+                            {{ form.bio }}
+                        </div>
+
+                        <div class="d-grid gap-2 mt-4">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fas fa-save me-2"></i>Save Profile
+                            </button>
+                            <a href="{% url 'dashboard' %}" class="btn btn-outline-secondary">
+                                <i class="fas fa-times me-2"></i>Cancel
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

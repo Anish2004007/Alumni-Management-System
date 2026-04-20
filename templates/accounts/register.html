@@ -1,0 +1,147 @@
+{% extends 'base.html' %}
+
+{% block title %}Register - Alumni Management System{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white text-center py-4">
+                    <h3><i class="fas fa-user-plus me-2"></i>Create Your Account</h3>
+                    <p class="mb-0">Join our alumni network today</p>
+                </div>
+                <div class="card-body p-4">
+                    <form method="post" novalidate>
+                        {% csrf_token %}
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.username.id_for_label }}" class="form-label">
+                                    <i class="fas fa-user me-1"></i>Username
+                                </label>
+                                {{ form.username }}
+                                {% if form.username.errors %}
+                                    <div class="text-danger small mt-1">
+                                        {% for error in form.username.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                                <div class="form-text">Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.</div>
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.email.id_for_label }}" class="form-label">
+                                    <i class="fas fa-envelope me-1"></i>Email Address
+                                </label>
+                                {{ form.email }}
+                                {% if form.email.errors %}
+                                    <div class="text-danger small mt-1">
+                                        {% for error in form.email.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.first_name.id_for_label }}" class="form-label">
+                                    <i class="fas fa-signature me-1"></i>First Name
+                                </label>
+                                {{ form.first_name }}
+                                {% if form.first_name.errors %}
+                                    <div class="text-danger small mt-1">
+                                        {% for error in form.first_name.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.last_name.id_for_label }}" class="form-label">
+                                    <i class="fas fa-signature me-1"></i>Last Name
+                                </label>
+                                {{ form.last_name }}
+                                {% if form.last_name.errors %}
+                                    <div class="text-danger small mt-1">
+                                        {% for error in form.last_name.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.password1.id_for_label }}" class="form-label">
+                                    <i class="fas fa-lock me-1"></i>Password
+                                </label>
+                                {{ form.password1 }}
+                                {% if form.password1.errors %}
+                                    <div class="text-danger small mt-1">
+                                        {% for error in form.password1.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                                <div class="form-text">
+                                    Your password must contain at least 8 characters and can't be entirely numeric.
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.password2.id_for_label }}" class="form-label">
+                                    <i class="fas fa-lock me-1"></i>Confirm Password
+                                </label>
+                                {{ form.password2 }}
+                                {% if form.password2.errors %}
+                                    <div class="text-danger small mt-1">
+                                        {% for error in form.password2.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                                <div class="form-text">Enter the same password as before, for verification.</div>
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2 mt-4">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fas fa-user-plus me-2"></i>Create Account
+                            </button>
+                        </div>
+                    </form>
+
+                    <div class="mt-4 text-center">
+                        <p class="mb-0">Already have an account? 
+                            <a href="{% url 'login' %}" class="text-primary fw-bold">Login here</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Add some styling for form fields */
+    input[type="text"], input[type="email"], input[type="password"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        transition: border-color 0.3s;
+    }
+    
+    input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+        outline: none;
+    }
+</style>
+{% endblock %}

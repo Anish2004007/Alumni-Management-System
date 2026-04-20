@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+{% block title %}My Applications{% endblock %}
+{% block content %}
+<div class="container mt-4">
+  <div class="row mb-4">
+    <div class="col-md-8">
+      <h2><i class="fas fa-list-check me-2"></i>My Applications</h2>
+      <p class="text-muted">Track all your job applications and progress</p>
+    </div>
+    <div class="col-md-4 text-end">
+      <a href="{% url 'job_list' %}" class="btn btn-outline-primary">
+        <i class="fas fa-search me-1"></i>Find More Jobs
+      </a>
+    </div>
+  </div>
+
+  {% if applications %}
+  <div class="row mb-4">
+    <div class="col-6 col-md-3 mb-3">
+      <div class="card border-0 bg-primary text-white text-center p-3">
+        <h3 class="mb-0">{{ applications|length }}</h3>
+        <small>Total Applied</small>
+      </div>
+    </div>
+    <div class="col-6 col-md-3 mb-3">
+      <div class="card border-0 bg-warning text-white text-center p-3">
+        <h3 class="mb-0">
+          {% with count=0 %}
+          {% for a in applications %}{% if a.status == 'interview' %}{{ forloop.counter }}{% endif %}{% endfor %}
+          {% endwith %}
+          0
+        </h3>
+        <small>Interviews</small>
+      </div>
+    </div>
+    <div class="col-6 col-md-3 mb-3">
+      <div class="card border-0 bg-success text-white text-center p-3">
+        <h3 class="mb-0">0</h3>
+        <small>Offers</small>
+      </div>
+    </div>
+    <div class="col-6 col-md-3 mb-3">
+      <div class="card border-0 bg-info text-white text-center p-3">
+        <h3 class="mb-0">0</h3>
+        <small>Shortlisted</small>
+      </div>
+    </div>
+  </div>
+
+  {% for app in applications %}
+  <div class="card border-0 shadow-sm mb-3">
+    <div class="card-body p-4">
+      <div class="row align-items-center">
+        <div class="col-md-5">
+          <h5 class="mb-1">{{ app.job.title }}</h5>
+          <p class="text-muted mb-0 small">
+            <i class="fas fa-building me-1"></i>{{ app.job.company }}
+            <span class="ms-2">
+              <i class="fas fa-map-marker-alt me-1"></i>{{ app.job.location }}
+            </span>
+          </p>
+        </div>
+        <div class="col-md-3 text-center mt-2 mt-md-0">
+          {% if app.status == 'applied' %}
+            <span class="badge bg-secondary fs-6 px-3 py-2">Applied</span>
+          {% elif app.status == 'under_review' %}
+            <span class="badge bg-info fs-6 px-3 py-2">Under Review</span>
+          {% elif app.status == 'shortlisted' %}
+            <span class="badge bg-primary fs-6 px-3 py-2">Shortlisted</span>
+          {% elif app.status == 'interview' %}
+            <span class="badge bg-warning fs-6 px-3 py-2">Interview</span>
+          {% elif app.status == 'offered' %}
+            <span class="badge bg-success fs-6 px-3 py-2">🎉 Offer!</span>
+          {% elif app.status == 'rejected' %}
+            <span class="badge bg-danger fs-6 px-3 py-2">Rejected</span>
+          {% elif app.status == 'withdrawn' %}
+            <span class="badge bg-dark fs-6 px-3 py-2">Withdrawn</span>
+          {% endif %}
+        </div>
+        <div class="col-md-4 text-md-end mt-2 mt-md-0">
+          <small class="text-muted d-block mb-2">
+            <i class="fas fa-clock me-1"></i>Applied {{ app.applied_date|timesince }} ago
+          </small>
+          {% if app.status != 'offered' and app.status != 'rejected' and app.status != 'withdrawn' %}
+          <a href="{% url 'withdraw_application' app.pk %}"
+             class="btn btn-sm btn-outline-danger"
+             onclick="return confirm('Withdraw this application?')">
+            Withdraw
+          </a>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- Progress Bar -->
+      <div class="mt-3">
+        <div class="d-flex justify-content-between small text-muted mb-1">
+          <span>Applied</span>
+          <span>Review</span>
+          <span>Shortlisted</span>
+          <span>Interview</span>
+          <span>Offer</span>
+        </div>
+        <div class="progress" style="height: 8px;">
+          {% if app.status == 'applied' %}
+            <div class="progress-bar bg-secondary" style="width:20%"></div>
+          {% elif app.status == 'under_review' %}
+            <div class="progress-bar bg-info" style="width:40%"></div>
+          {% elif app.status == 'shortlisted' %}
+            <div class="progress-bar bg-primary" style="width:60%"></div>
+          {% elif app.status == 'interview' %}
+            <div class="progress-bar bg-warning" style="width:80%"></div>
+          {% elif app.status == 'offered' %}
+            <div class="progress-bar bg-success" style="width:100%"></div>
+          {% elif app.status == 'rejected' %}
+            <div class="progress-bar bg-danger" style="width:100%"></div>
+          {% else %}
+            <div class="progress-bar bg-dark" style="width:10%"></div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+
+  {% else %}
+  <div class="text-center py-5">
+    <i class="fas fa-file-alt fa-4x text-muted mb-4"></i>
+    <h4 class="text-muted">No applications yet</h4>
+    <p class="text-muted">Start applying to jobs to track your progress here.</p>
+    <a href="{% url 'job_list' %}" class="btn btn-primary mt-2">
+      <i class="fas fa-search me-1"></i>Browse Jobs
+    </a>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

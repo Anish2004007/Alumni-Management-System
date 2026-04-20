@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block title %}Events - Alumni Management System{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <h2><i class="fas fa-calendar-alt me-2"></i>Events</h2>
+            <p class="text-muted">Stay connected through alumni events and reunions</p>
+        </div>
+        <div class="col-md-4 text-end">
+            <a href="{% url 'event_create' %}" class="btn btn-warning">
+                <i class="fas fa-plus me-2"></i>Create Event
+            </a>
+        </div>
+    </div>
+
+    {% if events %}
+    <div class="row">
+        {% for event in events %}
+        <div class="col-lg-6 mb-4">
+            <div class="card h-100">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">{{ event.title }}</h5>
+                    {% if event.registration_fee > 0 %}
+                        <span class="badge bg-info">${{ event.registration_fee }}</span>
+                    {% else %}
+                        <span class="badge bg-success">Free</span>
+                    {% endif %}
+                </div>
+                <div class="card-body">
+                    <p class="text-muted small">{{ event.description|truncatewords:25 }}</p>
+                    <div class="mb-2">
+                        <i class="fas fa-calendar me-2 text-warning"></i>
+                        <strong>{{ event.date|date:"F d, Y" }}</strong> at {{ event.date|time:"g:i A" }}
+                    </div>
+                    <div class="mb-2">
+                        <i class="fas fa-map-marker-alt me-2 text-danger"></i>{{ event.location }}
+                    </div>
+                    <div>
+                        <i class="fas fa-users me-2 text-primary"></i>Max {{ event.max_participants }} participants
+                    </div>
+                </div>
+                <div class="card-footer text-muted small">
+                    <i class="fas fa-user me-1"></i>Organized by {{ event.organizer.get_full_name|default:event.organizer.username }}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="text-center py-5">
+        <i class="fas fa-calendar-times fa-4x text-muted mb-4"></i>
+        <h4 class="text-muted">No upcoming events</h4>
+        <p class="text-muted">Be the first to organize an alumni event!</p>
+        <a href="{% url 'event_create' %}" class="btn btn-warning mt-2">
+            <i class="fas fa-plus me-2"></i>Create Event
+        </a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
